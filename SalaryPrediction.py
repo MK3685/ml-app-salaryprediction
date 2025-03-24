@@ -197,6 +197,3 @@ y_pred = regressor.predict(X)
 y_pred = regressor_loaded.predict(X)
 y_pred
 
-
-
-

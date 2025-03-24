@@ -33,18 +33,20 @@ def clean_education(x):
     return 'Less than a Bachelors'
 
 
-@st.cache
-def load_data():# Download the ZIP file from the link
+@st.cache_data
+def load_data():
+    # Download the ZIP file
     url = "https://survey.stackoverflow.co/datasets/stack-overflow-developer-survey-2020.zip"
     response = requests.get(url)
-    # Extract the ZIP file in memory
+    
+    # Extract ZIP file in memory
     with zipfile.ZipFile(io.BytesIO(response.content), "r") as zip_ref:
-        zip_ref.extractall("data")  # Extract to 'data' folder
+        zip_ref.extractall("data")  # Extract into 'data' folder
 
-# Find the CSV file inside the extracted folder 
+    # Find the CSV file inside the extracted folder
     csv_file_path = "data/survey_results_public.csv"  
 
-# Load CSV into a Pandas DataFrame
+    # Load CSV into a Pandas DataFrame
     df = pd.read_csv(csv_file_path)
     df = df[["Country", "EdLevel", "YearsCodePro", "Employment", "ConvertedComp"]]
     df = df[df["ConvertedComp"].notnull()]
@@ -52,15 +54,16 @@ def load_data():# Download the ZIP file from the link
     df = df[df["Employment"] == "Employed full-time"]
     df = df.drop("Employment", axis=1)
 
+    # Ensure these functions are defined
     country_map = shorten_categories(df.Country.value_counts(), 400)
     df["Country"] = df["Country"].map(country_map)
-    df = df[df["ConvertedComp"] <= 250000]
-    df = df[df["ConvertedComp"] >= 10000]
+    df = df[(df["ConvertedComp"] <= 250000) & (df["ConvertedComp"] >= 10000)]
     df = df[df["Country"] != "Other"]
 
     df["YearsCodePro"] = df["YearsCodePro"].apply(clean_experience)
     df["EdLevel"] = df["EdLevel"].apply(clean_education)
-    df = df.rename({"ConvertedComp": "Salary"}, axis=1)
+    df = df.rename(columns={"ConvertedComp": "Salary"})
+    
     return df
 
 df = load_data()
