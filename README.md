@@ -5,7 +5,7 @@
 ## 🚀 About the Project  
 This is a **Machine Learning-powered Salary Prediction App** that estimates salaries based on user input. It is built using **Python, Streamlit, Scikit-learn, Pandas, and NumPy**.
 
-🔗 **Live Demo:** [DevSalary Estimator](https://ml-app-salaryprediction-mk3685.streamlit.app/)
+🔗 **Live Demo:** [DevSalary Estimator](https://ml-app-salaryprediction-KorirTheAnalyst.streamlit.app/)
 
 ---
 
